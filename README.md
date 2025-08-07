@@ -42,5 +42,5 @@ The combined text and images are then rendered into an engaging final output, su
 
 ---
 
-*Bring your stories to life with words and images, effortlessly!!*
+*Bring your stories to life with words and images, effortlessly!*
 
