@@ -356,3 +356,63 @@ exports.stopSequenceStory = async (req, res) => {
     res.status(500).json({ success: false, message: "Error generating stop-sequence story", error: error.message });
   }
 };
+
+// ✅ Embeddings + Semantic Search
+const embeddingModel = genAI.getGenerativeModel({ model: "text-embedding-004" });
+
+// In-memory store (for demo only — use a vector DB in production)
+const memoryVectors = [];
+
+function cosineSimilarity(a, b) {
+  const dot = a.reduce((sum, v, i) => sum + v * b[i], 0);
+  const magA = Math.sqrt(a.reduce((s, v) => s + v*v, 0));
+  const magB = Math.sqrt(b.reduce((s, v) => s + v*v, 0));
+  return magA && magB ? dot / (magA * magB) : 0;
+}
+
+// Create embeddings
+exports.createEmbeddings = async (req, res) => {
+  try {
+    const { text, id = `item_${Date.now()}` } = req.body;
+    if (!text) return res.status(400).json({ message: "Text is required" });
+
+    const result = await embeddingModel.embedContent({ content: { parts: [{ text }] } });
+    const vector = result.embedding.values;
+    memoryVectors.push({ id, text, embedding: vector });
+
+    console.log(`🧠 Stored embedding id=${id}, dim=${vector.length}`);
+    res.json({ success: true, strategy: "Embeddings (Store)", stored: { id, dim: vector.length } });
+  } catch (err) {
+    console.error("❌ Error creating embedding:", err.message || err);
+    res.status(500).json({ success: false, message: "Error creating embedding", error: err.message });
+  }
+};
+
+// Search embeddings
+exports.searchEmbeddings = async (req, res) => {
+  try {
+    const { query, topK = 3 } = req.body;
+    if (!query) return res.status(400).json({ message: "Query is required" });
+
+    const result = await embeddingModel.embedContent({ content: { parts: [{ text: query }] } });
+    const qvec = result.embedding.values;
+
+    const scored = memoryVectors.map(doc => ({
+      id: doc.id,
+      text: doc.text,
+      score: cosineSimilarity(qvec, doc.embedding)
+    }));
+
+    scored.sort((a, b) => b.score - a.score);
+    res.json({
+      success: true,
+      strategy: "Embeddings (Semantic Search)",
+      query,
+      results: scored.slice(0, topK)
+    });
+  } catch (err) {
+    console.error("❌ Error searching embeddings:", err.message || err);
+    res.status(500).json({ success: false, message: "Error searching embeddings", error: err.message });
+  }
+};
+
