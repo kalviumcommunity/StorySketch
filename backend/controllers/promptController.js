@@ -209,3 +209,47 @@ exports.dynamicPromptStory = async (req, res) => {
     res.status(500).json({ success: false, message: "Error generating dynamic story", error: error.message });
   }
 };
+
+// ✅ Chain-of-Thought Prompting
+exports.cotStory = async (req, res) => {
+  try {
+    const { prompt, scenes = 3 } = req.body;
+    if (!prompt) return res.status(400).json({ message: "Prompt is required" });
+
+    const storyPrompt = `
+You are StorySketch AI.
+You may plan step-by-step internally (chain-of-thought) to ensure coherence.
+Do NOT include your internal reasoning in the output.
+Return ONLY:
+- "reasoningSummary": 3 concise bullet points explaining your approach.
+- "title": compelling story title.
+- "scenes": an array of ${scenes} scenes, each with:
+  - id
+  - title
+  - narrative (4-6 sentences)
+  - dialogue (1-3 lines)
+  - setting (1-2 sentences)
+  - illustrationPrompt (1 sentence)
+
+User Prompt: "${prompt}"
+    `;
+
+    const result = await model.generateContent(storyPrompt);
+    const storyRaw = result.response.text();
+
+    // Log tokens
+    logTokenUsage(result, "Chain-of-Thought Prompting");
+
+    // Return raw text (or try JSON parse if you like)
+    res.json({
+      success: true,
+      strategy: "Chain-of-Thought Prompting (StorySketch)",
+      userPrompt: prompt,
+      story: storyRaw
+    });
+
+  } catch (error) {
+    console.error("❌ Error generating CoT story:", error.message || error);
+    res.status(500).json({ success: false, message: "Error generating CoT story", error: error.message });
+  }
+};
