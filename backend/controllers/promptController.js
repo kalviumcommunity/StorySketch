@@ -319,3 +319,40 @@ exports.structuredStory = async (req, res) => {
   }
 };
 
+
+// ✅ Stop Sequence Prompting
+exports.stopSequenceStory = async (req, res) => {
+  try {
+    const { prompt, stopSequences = ["END", "STOP"] } = req.body;
+    if (!prompt) return res.status(400).json({ message: "Prompt is required" });
+
+    const storyPrompt = `
+      You are StorySketch AI. Generate a short story based on the user’s prompt.
+      Stop generating if you encounter any of these stop sequences: ${stopSequences.join(", ")}.
+
+      User Prompt: "${prompt}"
+    `;
+
+    const result = await model.generateContent({
+      contents: [{ role: "user", parts: [{ text: storyPrompt }] }],
+      generationConfig: {
+        stopSequences, // 👈 Here we define the stop sequence
+      },
+    });
+
+    const story = result.response.text();
+
+    logTokenUsage(result, "Stop Sequence Prompting");
+
+    res.json({
+      success: true,
+      strategy: "Stop Sequence Prompting (StorySketch)",
+      userPrompt: prompt,
+      appliedSettings: { stopSequences },
+      story,
+    });
+  } catch (error) {
+    console.error("❌ Error generating stop-sequence story:", error.message || error);
+    res.status(500).json({ success: false, message: "Error generating stop-sequence story", error: error.message });
+  }
+};
