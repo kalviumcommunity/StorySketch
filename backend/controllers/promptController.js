@@ -151,3 +151,45 @@ exports.multiShotStory = async (req, res) => {
     res.status(500).json({ success: false, message: "Error generating multi-shot story", error: error.message });
   }
 };
+
+// ✅ Dynamic Prompting
+exports.dynamicPromptStory = async (req, res) => {
+  try {
+    const { prompt, genre, tone, length } = req.body;
+
+    if (!prompt) return res.status(400).json({ message: "Prompt is required" });
+
+    // 🎨 Dynamically build instructions
+    let styleInstructions = "";
+    if (genre) styleInstructions += `Write the story in the **${genre}** genre.\n`;
+    if (tone) styleInstructions += `The tone should be **${tone}**.\n`;
+    if (length) styleInstructions += `The story should be about **${length}** paragraphs long.\n`;
+
+    const storyPrompt = `
+      You are StorySketch AI. Create a story based on the user’s prompt.
+      ${styleInstructions}
+
+      For each scene, include:
+      - Narrative text
+      - Character dialogue
+      - Setting description
+      - An illustration idea
+
+      User Prompt: "${prompt}"
+    `;
+
+    const result = await model.generateContent(storyPrompt);
+    const story = result.response.text();
+
+    res.json({
+      success: true,
+      strategy: "Dynamic Prompting (StorySketch)",
+      userPrompt: prompt,
+      appliedSettings: { genre, tone, length },
+      story,
+    });
+  } catch (error) {
+    console.error("❌ Error generating dynamic story:", error.message || error);
+    res.status(500).json({ success: false, message: "Error generating dynamic story", error: error.message });
+  }
+};
