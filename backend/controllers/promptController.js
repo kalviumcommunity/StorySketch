@@ -4,6 +4,22 @@ require("dotenv").config();
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
+
+
+// 🔹 Helper to log token usage
+function logTokenUsage(result, strategy) {
+  if (result?.response?.usageMetadata) {
+    console.log(`\n📊 Token Usage for ${strategy}:`);
+    console.log("Prompt tokens:", result.response.usageMetadata.promptTokenCount);
+    console.log("Response tokens:", result.response.usageMetadata.candidatesTokenCount);
+    console.log("Total tokens:", result.response.usageMetadata.totalTokenCount);
+  } else {
+    console.log(`⚠️ No token usage info returned for ${strategy}`);
+  }
+}
+
+
+
 // ✅ Zero-Shot Prompting
 exports.zeroShotStory = async (req, res) => {
   try {
