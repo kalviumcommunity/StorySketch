@@ -168,10 +168,10 @@ exports.multiShotStory = async (req, res) => {
   }
 };
 
-// ✅ Dynamic Prompting with Temperature and Top P
+// ✅ Dynamic Prompting with Temperature, Top P, and Top K
 exports.dynamicPromptStory = async (req, res) => {
   try {
-    const { prompt, genre, tone, length, temperature = 0.7, top_p = 0.9 } = req.body;
+    const { prompt, genre, tone, length, temperature = 0.7, top_p = 0.9, top_k = 50 } = req.body;
 
     if (!prompt) return res.status(400).json({ message: "Prompt is required" });
 
@@ -193,7 +193,7 @@ exports.dynamicPromptStory = async (req, res) => {
       User Prompt: "${prompt}"
     `;
 
-    const result = await model.generateContent(storyPrompt, { temperature, top_p });
+    const result = await model.generateContent(storyPrompt, { temperature, top_p, top_k });
     const story = result.response.text();
 
     logTokenUsage(result, "Dynamic Prompting");
@@ -202,7 +202,7 @@ exports.dynamicPromptStory = async (req, res) => {
       success: true,
       strategy: "Dynamic Prompting (StorySketch)",
       userPrompt: prompt,
-      appliedSettings: { genre, tone, length, temperature, top_p },
+      appliedSettings: { genre, tone, length, temperature, top_p, top_k },
       story,
     });
   } catch (error) {
@@ -211,10 +211,10 @@ exports.dynamicPromptStory = async (req, res) => {
   }
 };
 
-// ✅ Chain-of-Thought Prompting with Temperature
+// ✅ Chain-of-Thought Prompting with Temperature, Top P, and Top K
 exports.cotStory = async (req, res) => {
   try {
-    const { prompt, scenes = 3, temperature = 0.7 } = req.body;
+    const { prompt, scenes = 3, temperature = 0.7, top_p = 0.9, top_k = 50 } = req.body;
     if (!prompt) return res.status(400).json({ message: "Prompt is required" });
 
     const storyPrompt = `
@@ -235,7 +235,7 @@ Return ONLY:
 User Prompt: "${prompt}"
     `;
 
-    const result = await model.generateContent(storyPrompt, { temperature }); // add temperature
+    const result = await model.generateContent(storyPrompt, { temperature, top_p, top_k });
     const storyRaw = result.response.text();
 
     logTokenUsage(result, "Chain-of-Thought Prompting");
@@ -244,7 +244,7 @@ User Prompt: "${prompt}"
       success: true,
       strategy: "Chain-of-Thought Prompting (StorySketch)",
       userPrompt: prompt,
-      appliedSettings: { scenes, temperature },
+      appliedSettings: { scenes, temperature, top_p, top_k },
       story: storyRaw,
     });
   } catch (error) {
