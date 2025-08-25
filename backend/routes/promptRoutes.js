@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { zeroShotStory, oneShotStory, multiShotStory, dynamicPromptStory, cotStory, structuredStory } = require("../controllers/promptController");
+const { zeroShotStory, oneShotStory, multiShotStory, dynamicPromptStory, cotStory, structuredStory, stopSequenceStory } = require("../controllers/promptController");
 
 // POST /api/zero-shot
 router.post("/zero-shot", zeroShotStory);
@@ -19,5 +19,8 @@ router.post("/cot", cotStory);
 
 // POST /api/structured
 router.post("/structured", structuredStory);
+
+// POST /api/stop-sequence
+router.post("/stop-sequence", stopSequenceStory);
 
 module.exports = router;
