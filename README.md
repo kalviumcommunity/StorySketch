@@ -1,43 +1,59 @@
-StorySketch
+🌟 StorySketch
 
-StorySketch is a minimal generative AI application that transforms simple user prompts into short, structured stories. By leveraging Google Gemini’s advanced storytelling capabilities (via the Node.js SDK), StorySketch delivers rich narratives divided into scenes, each paired with tailored illustration prompts for future text-to-image generation.
+StorySketch is a minimal yet powerful Generative AI storytelling app that transforms simple user prompts into structured, scene-by-scene narratives. Powered by Google Gemini, StorySketch doesn’t just tell stories—it brings them to life with dialogues, vivid settings, and tailored illustration prompts designed for future AI-generated artwork.
 
-Project Overview
+🚀 What is StorySketch?
 
-StorySketch takes a user’s prompt and generates a fully structured short story, divided into scenes. Each scene includes:
+Imagine typing a single line like:
 
-Narrative text
+“A young astronaut discovers a secret garden on Mars.”
 
-Character dialogue
+And instantly receiving a multi-scene short story, complete with:
 
-Setting descriptions
+📖 Narrative text
 
-Tailored illustration prompts
+🎭 Character dialogues
 
-The backend is built with Node.js + Express, using Gemini’s generative models (e.g., gemini-1.5-flash or gemini-1.5-pro) to output clean, structured JSON. This makes it easy for the frontend to loop through scenes, display story text, and pair it with AI-generated illustrations.
+🏞️ Setting descriptions
 
-Future enhancements include integrating Retrieval-Augmented Generation (RAG) to enrich the story with external knowledge, and text-to-image models (e.g., Stable Diffusion, Imagen, or DALL·E) to turn illustration prompts into contextual images.
+🎨 Illustration prompts for each scene
 
-Tech Stack and Their Roles
+StorySketch makes storytelling simple, modular, and ready for visual creativity.
+
+🛠️ Tech Stack
 Technology	Role in StorySketch
-Google Gemini (Node.js SDK)	Generates structured story data (scenes, dialogues, settings, illustration prompts).
-Node.js + Express	Provides the API layer for handling user prompts and returning structured JSON stories.
-Retrieval-Augmented Generation (RAG) (planned)	Enriches stories with contextual knowledge from vector databases.
-Text-to-Image Models (planned)	Generates illustrations from Gemini’s scene prompts.
-Frontend (React / Next.js, etc.) (planned)	Displays story text alongside AI-generated images in a user-friendly format.
-Export (HTML/PDF) (planned)	Allows exporting stories into sharable, illustrated formats.
-Features
+Google Gemini (Node.js SDK)	Generates structured story data (scenes, dialogues, settings, image prompts).
+Node.js + Express	API layer to handle user prompts and return clean JSON.
+RAG (Retrieval-Augmented Generation) (planned)	Adds external knowledge for richer, more context-aware stories.
+Text-to-Image Models (Stable Diffusion, DALL·E, etc.) (planned)	Transforms illustration prompts into visuals.
+Frontend (React / Next.js, etc.) (planned)	Renders stories alongside AI-generated images.
+Export (HTML/PDF) (planned)	Share stories as illustrated documents.
+✨ Features
 
-✨ Turn simple prompts into rich, structured stories
+📝 Prompt-to-Story Magic – Turn short prompts into fully structured stories.
 
-🎭 Scene-by-scene generation with characters, settings, dialogues, and image prompts
+🎬 Scene-by-Scene Breakdown – Each scene has narration, dialogue, and setting details.
 
-📦 JSON output for easy frontend integration and rendering
+🎨 Illustration Prompts – Ready-to-use prompts for image generation models.
 
-🔄 Future support for text-to-image illustration generation
+📦 Clean JSON Output – Perfect for frontend integration.
 
-📚 Optional RAG enrichment for more context-aware storytelling
+🔮 Future Upgrades – Image generation, RAG integration, and export options.
 
-🛠️ Modular Node.js codebase designed for easy extension and customization
+🌈 Why StorySketch?
 
-Bring your stories to life with words and images, powered by Gemini!
+Because stories deserve more than just text. With StorySketch, you don’t just write—you build worlds, design characters that speak, and set the stage for visual storytelling.
+
+📌 Roadmap
+
+✅ Structured JSON storytelling (MVP)
+
+🔜 Text-to-Image integration (Stable Diffusion / DALL·E)
+
+🔜 RAG-based story enrichment
+
+🔜 Interactive frontend (React/Next.js)
+
+🔜 Story exports (Illustrated HTML/PDF)
+
+💡 Bring your stories to life with words and images, powered by Gemini.
