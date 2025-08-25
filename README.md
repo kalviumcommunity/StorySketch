@@ -1,46 +1,43 @@
-# StorySketch
+StorySketch
 
-**StorySketch** is a minimal generative AI application that transforms simple user prompts into short, illustrated stories. By combining GPT-4’s advanced storytelling and function calling capabilities with Retrieval-Augmented Generation (RAG) and text-to-image synthesis, StorySketch delivers rich narratives paired with compelling visuals.
+StorySketch is a minimal generative AI application that transforms simple user prompts into short, structured stories. By leveraging Google Gemini’s advanced storytelling capabilities (via the Node.js SDK), StorySketch delivers rich narratives divided into scenes, each paired with tailored illustration prompts for future text-to-image generation.
 
----
-
-## Project Overview
+Project Overview
 
 StorySketch takes a user’s prompt and generates a fully structured short story, divided into scenes. Each scene includes:
 
-- Narrative text  
-- Character dialogue  
-- Setting descriptions  
-- Tailored illustration prompts  
+Narrative text
 
-GPT-4 not only crafts the story but also uses **function calling** to trigger image generation for each scene, creating vivid, contextual illustrations. Optionally, **Retrieval-Augmented Generation (RAG)** enriches the story by incorporating external knowledge from vector databases, enhancing the accuracy and depth of the narrative.
+Character dialogue
 
-The combined text and images are then rendered into an engaging final output, suitable for reading or sharing.
+Setting descriptions
 
----
+Tailored illustration prompts
 
-## Tech Stack and Their Roles
+The backend is built with Node.js + Express, using Gemini’s generative models (e.g., gemini-1.5-flash or gemini-1.5-pro) to output clean, structured JSON. This makes it easy for the frontend to loop through scenes, display story text, and pair it with AI-generated illustrations.
 
-| Technology                       | Role in StorySketch                                                                 |
-|---------------------------------|------------------------------------------------------------------------------------|
-| **GPT-4 with Function Calling** | Generates structured story data and dynamically calls functions to create scene illustrations. |
-| **Retrieval-Augmented Generation (RAG)** | Provides external contextual knowledge by querying vector databases to enrich story content.  |
-| **Text-to-Image Models** (DALL·E, Stable Diffusion) | Generates scene illustrations from GPT-4’s image prompts triggered via function calls.         |
-| **Python 3.10+**                | Implements the core application logic, integrating GPT-4 calls, retrieval, image generation, and rendering. |
-| **HTML/CSS Renderer**           | Combines story text and illustrations into a visually appealing, user-friendly format for web display or export (e.g., PDF). |
+Future enhancements include integrating Retrieval-Augmented Generation (RAG) to enrich the story with external knowledge, and text-to-image models (e.g., Stable Diffusion, Imagen, or DALL·E) to turn illustration prompts into contextual images.
 
----
+Tech Stack and Their Roles
+Technology	Role in StorySketch
+Google Gemini (Node.js SDK)	Generates structured story data (scenes, dialogues, settings, illustration prompts).
+Node.js + Express	Provides the API layer for handling user prompts and returning structured JSON stories.
+Retrieval-Augmented Generation (RAG) (planned)	Enriches stories with contextual knowledge from vector databases.
+Text-to-Image Models (planned)	Generates illustrations from Gemini’s scene prompts.
+Frontend (React / Next.js, etc.) (planned)	Displays story text alongside AI-generated images in a user-friendly format.
+Export (HTML/PDF) (planned)	Allows exporting stories into sharable, illustrated formats.
+Features
 
-## Features
+✨ Turn simple prompts into rich, structured stories
 
-- ✨ **Turn simple prompts into rich, structured stories**  
-- 🎭 **Scene-by-scene generation** with characters, settings, dialogues, and image prompts  
-- 🔄 **Dynamic function calling** to trigger AI-generated illustrations  
-- 📚 **Optional knowledge enrichment** using RAG and vector databases  
-- 🛠️ **Modular Python codebase** designed for easy extension and customization  
-- 📄 **Ready for export** to HTML, PDF, or other formats (planned for future releases)  
+🎭 Scene-by-scene generation with characters, settings, dialogues, and image prompts
 
----
+📦 JSON output for easy frontend integration and rendering
 
-*Bring your stories to life with words and images, effortlessly!*
+🔄 Future support for text-to-image illustration generation
 
+📚 Optional RAG enrichment for more context-aware storytelling
+
+🛠️ Modular Node.js codebase designed for easy extension and customization
+
+Bring your stories to life with words and images, powered by Gemini!
