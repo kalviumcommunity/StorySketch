@@ -168,14 +168,13 @@ exports.multiShotStory = async (req, res) => {
   }
 };
 
-// ✅ Dynamic Prompting with Temperature
+// ✅ Dynamic Prompting with Temperature and Top P
 exports.dynamicPromptStory = async (req, res) => {
   try {
-    const { prompt, genre, tone, length, temperature = 0.7 } = req.body; // default 0.7
+    const { prompt, genre, tone, length, temperature = 0.7, top_p = 0.9 } = req.body;
 
     if (!prompt) return res.status(400).json({ message: "Prompt is required" });
 
-    // 🎨 Dynamically build instructions
     let styleInstructions = "";
     if (genre) styleInstructions += `Write the story in the **${genre}** genre.\n`;
     if (tone) styleInstructions += `The tone should be **${tone}**.\n`;
@@ -194,7 +193,7 @@ exports.dynamicPromptStory = async (req, res) => {
       User Prompt: "${prompt}"
     `;
 
-    const result = await model.generateContent(storyPrompt, { temperature }); // add temperature
+    const result = await model.generateContent(storyPrompt, { temperature, top_p });
     const story = result.response.text();
 
     logTokenUsage(result, "Dynamic Prompting");
@@ -203,7 +202,7 @@ exports.dynamicPromptStory = async (req, res) => {
       success: true,
       strategy: "Dynamic Prompting (StorySketch)",
       userPrompt: prompt,
-      appliedSettings: { genre, tone, length, temperature },
+      appliedSettings: { genre, tone, length, temperature, top_p },
       story,
     });
   } catch (error) {
