@@ -252,3 +252,70 @@ User Prompt: "${prompt}"
     res.status(500).json({ success: false, message: "Error generating CoT story", error: error.message });
   }
 };
+
+
+
+// ✅ Structured Output Prompting
+exports.structuredStory = async (req, res) => {
+  try {
+    const { prompt, scenes = 3 } = req.body;
+    if (!prompt) return res.status(400).json({ message: "Prompt is required" });
+
+    // Define schema for structured output
+    const schema = {
+      type: "object",
+      properties: {
+        title: { type: "string" },
+        summary: { type: "string" },
+        scenes: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              id: { type: "integer" },
+              title: { type: "string" },
+              narrative: { type: "string" },
+              dialogue: { type: "array", items: { type: "string" } },
+              setting: { type: "string" },
+              illustrationPrompt: { type: "string" }
+            },
+            required: ["id", "title", "narrative", "dialogue", "setting", "illustrationPrompt"]
+          }
+        }
+      },
+      required: ["title", "summary", "scenes"]
+    };
+
+    const result = await model.generateContent({
+      contents: [
+        {
+          role: "user",
+          parts: [
+            {
+              text: `Generate a structured story with ${scenes} scenes based on the user prompt: "${prompt}"`
+            }
+          ]
+        }
+      ],
+      generationConfig: {
+        responseMimeType: "application/json",
+        responseSchema: schema
+      }
+    });
+
+    const story = JSON.parse(result.response.text());
+
+    logTokenUsage(result, "Structured Output");
+
+    res.json({
+      success: true,
+      strategy: "Structured Output Prompting (StorySketch)",
+      userPrompt: prompt,
+      story
+    });
+  } catch (error) {
+    console.error("❌ Error generating structured story:", error.message || error);
+    res.status(500).json({ success: false, message: "Error generating structured story", error: error.message });
+  }
+};
+
