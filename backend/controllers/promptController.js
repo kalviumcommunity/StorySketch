@@ -168,10 +168,10 @@ exports.multiShotStory = async (req, res) => {
   }
 };
 
-// ✅ Dynamic Prompting
+// ✅ Dynamic Prompting with Temperature
 exports.dynamicPromptStory = async (req, res) => {
   try {
-    const { prompt, genre, tone, length } = req.body;
+    const { prompt, genre, tone, length, temperature = 0.7 } = req.body; // default 0.7
 
     if (!prompt) return res.status(400).json({ message: "Prompt is required" });
 
@@ -194,14 +194,16 @@ exports.dynamicPromptStory = async (req, res) => {
       User Prompt: "${prompt}"
     `;
 
-    const result = await model.generateContent(storyPrompt);
+    const result = await model.generateContent(storyPrompt, { temperature }); // add temperature
     const story = result.response.text();
+
+    logTokenUsage(result, "Dynamic Prompting");
 
     res.json({
       success: true,
       strategy: "Dynamic Prompting (StorySketch)",
       userPrompt: prompt,
-      appliedSettings: { genre, tone, length },
+      appliedSettings: { genre, tone, length, temperature },
       story,
     });
   } catch (error) {
@@ -210,10 +212,10 @@ exports.dynamicPromptStory = async (req, res) => {
   }
 };
 
-// ✅ Chain-of-Thought Prompting
+// ✅ Chain-of-Thought Prompting with Temperature
 exports.cotStory = async (req, res) => {
   try {
-    const { prompt, scenes = 3 } = req.body;
+    const { prompt, scenes = 3, temperature = 0.7 } = req.body;
     if (!prompt) return res.status(400).json({ message: "Prompt is required" });
 
     const storyPrompt = `
@@ -234,20 +236,18 @@ Return ONLY:
 User Prompt: "${prompt}"
     `;
 
-    const result = await model.generateContent(storyPrompt);
+    const result = await model.generateContent(storyPrompt, { temperature }); // add temperature
     const storyRaw = result.response.text();
 
-    // Log tokens
     logTokenUsage(result, "Chain-of-Thought Prompting");
 
-    // Return raw text (or try JSON parse if you like)
     res.json({
       success: true,
       strategy: "Chain-of-Thought Prompting (StorySketch)",
       userPrompt: prompt,
-      story: storyRaw
+      appliedSettings: { scenes, temperature },
+      story: storyRaw,
     });
-
   } catch (error) {
     console.error("❌ Error generating CoT story:", error.message || error);
     res.status(500).json({ success: false, message: "Error generating CoT story", error: error.message });
