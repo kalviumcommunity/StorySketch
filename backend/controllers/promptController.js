@@ -43,6 +43,7 @@ exports.zeroShotStory = async (req, res) => {
   }
 };
 
+
 // ✅ One-Shot Prompting
 exports.oneShotStory = async (req, res) => {
   try {
