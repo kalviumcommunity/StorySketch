@@ -1,14 +1,21 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require("cors"); // ✅ Import CORS
 const promptRoutes = require("./routes/promptRoutes");
 
 const app = express();
+
+// Allow any localhost port for development
+app.use(cors({
+  origin: /localhost:\d+/  // ✅ Regex to match any localhost port
+}));
+
 app.use(bodyParser.json());
 
-// Mount all routes under /api
+// Mount routes
 app.use("/api", promptRoutes);
 
-// Debug route
+// Test route
 app.get("/test", (req, res) => {
   res.send("✅ API is working");
 });
