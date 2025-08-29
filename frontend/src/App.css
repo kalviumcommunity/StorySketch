@@ -1,42 +1,73 @@
+/* General container */
 #root {
-  max-width: 1280px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;
+  background: #f9f9f9;
+  color: #333;
 }
 
+/* Logo styling */
 .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+  height: 5em;
+  padding: 1em;
+  transition: transform 0.3s ease, filter 0.3s ease;
 }
+
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 1.5em rgba(100, 108, 255, 0.6));
 }
+
 .logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  filter: drop-shadow(0 0 1.5em rgba(97, 218, 251, 0.6));
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
+/* Card styles */
 .card {
   padding: 2em;
+  margin: 1em auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
 }
 
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* Links */
+a {
+  text-decoration: none;
+  color: #646cff;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #333;
+}
+
+/* Small text */
 .read-the-docs {
-  color: #888;
+  color: #666;
+  font-size: 0.9em;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  #root {
+    padding: 1rem;
+  }
+
+  .logo {
+    height: 4em;
+  }
+
+  .card {
+    padding: 1.5em;
+  }
 }

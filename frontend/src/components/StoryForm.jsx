@@ -1,5 +1,6 @@
 import { useState } from "react";
 import API from "../api/api";
+import "./StoryForm.css";
 
 const strategies = [
   { label: "Zero-Shot", value: "zero-shot" },
@@ -35,22 +36,22 @@ export default function StoryForm({ setStory, setStrategy }) {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="flex flex-col gap-6 p-8 bg-gradient-to-br from-yellow-50 to-orange-50 shadow-xl rounded-3xl w-full max-w-xl border border-yellow-200"
-    >
-      <h2 className="text-3xl font-bold text-orange-900 mb-4 text-center">✨ Story Generator</h2>
+    <form onSubmit={handleSubmit} className="story-form">
+      <h2 className="story-form-title">Create Your Story</h2>
+      <p className="story-form-subtitle">
+        Select a storytelling strategy and describe your idea.
+      </p>
 
       <textarea
-        className="w-full p-4 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-all resize-none text-gray-700 placeholder-gray-400"
+        className="story-form-textarea"
         rows="5"
-        placeholder="Enter your story prompt..."
+        placeholder="Write your story idea here..."
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
       />
 
       <select
-        className="w-full p-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-all text-gray-700"
+        className="story-form-select"
         value={strategy}
         onChange={(e) => selectStrategy(e.target.value)}
       >
@@ -64,9 +65,17 @@ export default function StoryForm({ setStory, setStrategy }) {
       <button
         type="submit"
         disabled={loading}
-        className="w-full py-3 bg-orange-500 text-white font-semibold rounded-2xl hover:bg-orange-600 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+        className={`story-form-button ${loading ? 'story-form-loading' : ''}`}
       >
-        {loading ? "Generating..." : "Generate Story"}
+        {loading ? (
+          <>
+            <span className="mr-2">✨</span> Generating...
+          </>
+        ) : (
+          <>
+            <span className="mr-2">🚀</span> Generate Story
+          </>
+        )}
       </button>
     </form>
   );

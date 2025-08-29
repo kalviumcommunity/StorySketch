@@ -1,0 +1,189 @@
+/* StoryOutput.css - Professional Story Output Styles */
+
+.story-output-container {
+  margin-top: 3rem;
+  width: 100%;
+  max-width: 80rem;
+}
+
+/* Plain text story styling */
+.story-output-plain {
+  padding: 2.5rem;
+  background: linear-gradient(135deg, rgba(255, 240, 245, 0.95) 0%, rgba(237, 233, 254, 0.95) 100%);
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  border-radius: 1.5rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.story-output-plain-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #581c87;
+  text-align: center;
+}
+
+.story-output-plain-content {
+  white-space: pre-wrap;
+  color: #374151;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Structured story styling */
+.story-output-structured {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  width: 100%;
+}
+
+.story-output-header {
+  padding: 2.5rem;
+  background: linear-gradient(135deg, rgba(255, 240, 245, 0.95) 0%, rgba(237, 233, 254, 0.95) 100%);
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  border-radius: 1.5rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.story-output-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  color: #581c87;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.story-output-summary {
+  color: #4b5563;
+  font-size: 1.25rem;
+  line-height: 1.6;
+  font-style: italic;
+  margin-bottom: 0;
+}
+
+.story-output-summary strong {
+  color: #7c3aed;
+  font-style: normal;
+}
+
+/* Scene styling */
+.story-output-scene {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2rem;
+  background: white;
+  border: 1px solid #e9d5ff;
+  border-radius: 1.25rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.story-output-scene:hover {
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.story-output-scene-image {
+  width: 100%;
+  border-radius: 0.75rem;
+  object-fit: cover;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.story-output-scene-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.story-output-scene-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.story-output-scene-text {
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+.story-output-scene-text strong {
+  color: #7c3aed;
+}
+
+.story-output-dialogue {
+  margin-top: 0.5rem;
+}
+
+.story-output-dialogue-title {
+  color: #7c3aed;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.story-output-dialogue-list {
+  list-style-type: disc;
+  margin-left: 1.5rem;
+  color: #4b5563;
+}
+
+.story-output-dialogue-item {
+  margin-bottom: 0.25rem;
+  line-height: 1.5;
+}
+
+/* Responsive design */
+@media (min-width: 768px) {
+  .story-output-scene {
+    flex-direction: row;
+    gap: 2rem;
+  }
+  
+  .story-output-scene-image {
+    width: 33.333%;
+    height: auto;
+  }
+  
+  .story-output-plain {
+    padding: 3rem;
+  }
+  
+  .story-output-header {
+    padding: 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .story-output-title {
+    font-size: 3rem;
+  }
+  
+  .story-output-plain-title {
+    font-size: 2.5rem;
+  }
+}
+
+/* Animation for when story appears */
+@keyframes story-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.story-output-plain,
+.story-output-structured {
+  animation: story-fade-in 0.6s ease-out forwards;
+}
